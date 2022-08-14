@@ -2,6 +2,11 @@
 const counterEl = document.getElementById("counter");
 const incrementEl = document.getElementById("increment");
 const decrementEl = document.getElementById("decrement");
+const other = document.getElementById("other");
+const addCounter = document.getElementById("addCounter");
+const newCounter = `
+
+`;
 
 // initial state
 const initialState = {
@@ -43,6 +48,7 @@ incrementEl.addEventListener("click", () => {
   store.dispatch({
     type: "increment",
   });
+  console.log("first")
 });
 
 decrementEl.addEventListener("click", () => {
