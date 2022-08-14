@@ -2,11 +2,24 @@
 const counterEl = document.getElementById("counter");
 const incrementEl = document.getElementById("increment");
 const decrementEl = document.getElementById("decrement");
-const other = document.getElementById("other");
 const addCounter = document.getElementById("addCounter");
-const newCounter = `
-
+const inner = `
+            <button
+              id="increment${1}"
+              class="bg-indigo-400 text-white px-3 py-2 rounded shadow"
+              id="increment"
+            >
+              Increment
+            </button>
+            <button
+              id="decrement${1}"
+              class="bg-red-400 text-white px-3 py-2 rounded shadow"
+              id="decrement"
+            >
+              Decrement
+            </button>
 `;
+newCounter.innerHTML = inner;
 
 // initial state
 const initialState = {
@@ -48,7 +61,7 @@ incrementEl.addEventListener("click", () => {
   store.dispatch({
     type: "increment",
   });
-  console.log("first")
+  console.log("first");
 });
 
 decrementEl.addEventListener("click", () => {
@@ -56,3 +69,11 @@ decrementEl.addEventListener("click", () => {
     type: "decrement",
   });
 });
+
+function myFunction() {
+  const node = document.createElement("div");
+
+  node.innerHTML = inner;
+
+  document.getElementById("container").appendChild(node);
+}
