@@ -10,26 +10,6 @@ const initialState = [
     id: 0,
     value: 0,
   },
-  {
-    id: 1,
-    value: 2,
-  },
-  {
-    id: 2,
-    value: 5,
-  },
-  {
-    id: 3,
-    value: 8,
-  },
-  {
-    id: 4,
-    value: 9,
-  },
-  {
-    id: 5,
-    value: 12,
-  },
 ];
 
 // create reducer function
@@ -38,31 +18,8 @@ function counterReducer(state = initialState, action) {
   const states = [...state];
   const modify = states.find((state) => state.id == payload?.id);
   const rest = states.filter((state) => state.id !== payload?.id);
-  // const copiedState = state.map((s) => ({
-  //   ...s,
-  // }));
-
-  //console.log(type, payload);
+  console.log(type, payload);
   if (type === "increment") {
-    //return [...state,state[id].value = state[id].value + payload];
-    //return [...state, [(state[id].value = state[id].value + payload)]];
-
-    // const newState = [
-    //   {
-    //     ...copiedState.state[index],
-    //     value: copiedState.state[index].value + payload.value,
-    //   },
-    // ];
-    // const index = state.findIndex((el) => el.id === payload.id);
-    // const newState = [
-    //   ...state,
-    //   (state[index] = {
-    //     ...state[index],
-    //     value: state[index].value + payload.value,
-    //   }),
-    // ];
-    // console.log(newState,index);
-    // return newState;
     const newState = {
       ...modify,
       value: modify.value + payload.value,
@@ -71,7 +28,7 @@ function counterReducer(state = initialState, action) {
     let finalState = final.sort((a, b) => {
       return a.id - b.id;
     });
-    return final;
+    return finalState;
   } else if (type === "decrement") {
     const newState = {
       ...modify,
@@ -81,10 +38,19 @@ function counterReducer(state = initialState, action) {
     let finalState = final.sort((a, b) => {
       return a.id - b.id;
     });
-    return final;
+    return finalState;
   } else if (type === "addCounter") {
-    const counterState = [...state, payload];
-    return counterState;
+    const newState = {
+      id: payload.id,
+      value: payload.value,
+    };
+    const final = [...rest, newState];
+    return final;
+  } else if (type === "reset") {
+    const newArr = states.map((state) => {
+      return { ...state, value: 0 };
+    });
+    return newArr;
   } else {
     return state;
   }
@@ -126,7 +92,7 @@ decrementEl.addEventListener("click", () => {
 function myFunction() {
   const container = document.getElementById("container");
   const state = store.getState();
-  for(let i = 0; i < state.length; i++) {
+  for (let i = 0; i < state.length; i++) {
     const node = document.createElement("div");
     const inner = `
   <div class="text-2xl font-semibold"></div>
@@ -140,7 +106,7 @@ function myFunction() {
 `;
     node.innerHTML = inner;
     container.appendChild(node);
-  };
+  }
 
   store.dispatch({
     type: "addCounter",
@@ -154,12 +120,17 @@ function myFunction() {
 function decre(id) {
   store.dispatch({
     type: "decrement",
-    payload: { id: id+1, value: id+2 },
+    payload: { id: id + 1, value: id + 2 },
   });
 }
 function incre(id) {
   store.dispatch({
     type: "increment",
-    payload: { id: id+1, value: id+3 },
+    payload: { id: id + 1, value: id + 3 },
+  });
+}
+function reset(id) {
+  store.dispatch({
+    type: "reset",
   });
 }
