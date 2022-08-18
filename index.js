@@ -73,15 +73,15 @@ function counterReducer(state = initialState, action) {
     });
     return final;
   } else if (type === "decrement") {
-    const index = state.findIndex((el) => el.id === payload.id);
-    const newState = [
-      ...state,
-      {
-        ...state[index],
-        value: state[index].value - payload.value,
-      },
-    ];
-    return newState;
+    const newState = {
+      ...modify,
+      value: modify.value - payload.value,
+    };
+    const final = [...rest, newState];
+    let finalState = final.sort((a, b) => {
+      return a.id - b.id;
+    });
+    return final;
   } else if (type === "addCounter") {
     const counterState = [...state, payload];
     return counterState;
@@ -134,7 +134,7 @@ function myFunction() {
   <button class="${classd}" onclick="incre(${i})"> 
     Increment
   </button>
-  <button onclick="loadP()"  class="decrement bg-red-400 text-white px-3 py-2 rounded shadow" >
+  <button  class="decrement bg-red-400 text-white px-3 py-2 rounded shadow" onclick="decre(${i})"  >
     Decrement
   </button>
 `;
@@ -151,15 +151,15 @@ function myFunction() {
   });
 }
 
-function addItem() {
-  // const counters = document.getElementsByClassName("increment");
-  // let arrayOfElements = Array.from(counters);
-  // console.log(arrayOfElements);
+function decre(id) {
+  store.dispatch({
+    type: "decrement",
+    payload: { id: id+1, value: id+2 },
+  });
 }
 function incre(id) {
   store.dispatch({
     type: "increment",
-    payload: { id: id+1, value: 5 },
+    payload: { id: id+1, value: id+3 },
   });
 }
-function loadP() {}
