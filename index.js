@@ -72,7 +72,7 @@ render();
 
 store.subscribe(render);
 
-// button click listeners
+// initial button click listeners
 incrementEl.addEventListener("click", () => {
   store.dispatch({
     type: "increment",
@@ -113,19 +113,22 @@ function addCounters() {
   });
 }
 
+
+// dynamic button click listeners
 function increase(id) {
   store.dispatch({
     type: "increment",
     payload: { id: id, value: id + 2 },
   });
 }
+// dynamic button click listeners
 function decrease(id) {
   store.dispatch({
     type: "decrement",
     payload: { id: id, value: id },
   });
 }
-
+//reset button 
 function reset() {
   store.dispatch({
     type: "reset",
