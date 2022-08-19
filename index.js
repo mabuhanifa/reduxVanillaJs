@@ -16,13 +16,13 @@ const initialState = [
 function counterReducer(state = initialState, action) {
   const { type, payload } = action;
   const states = [...state];
-  const modify = states.find((state) => state.id == payload?.id);
+  const id = states.find((state) => state.id == payload?.id);
   const rest = states.filter((state) => state.id !== payload?.id);
 
   if (type === "increment") {
     const newState = {
-      ...modify,
-      value: modify.value + payload.value,
+      ...id,
+      value: id.value + payload.value,
     };
     const final = [...rest, newState];
     let finalState = final.sort((a, b) => {
@@ -31,8 +31,8 @@ function counterReducer(state = initialState, action) {
     return finalState;
   } else if (type === "decrement") {
     const newState = {
-      ...modify,
-      value: modify.value - payload.value,
+      ...id,
+      value: id.value - payload.value,
     };
     const final = [...rest, newState];
     let finalState = final.sort((a, b) => {
@@ -48,7 +48,7 @@ function counterReducer(state = initialState, action) {
     return final;
   } else if (type === "reset") {
     const newArr = states.map((state) => {
-      return { ...state, value: 0 };
+      return { ...state, value: initialState[0].value };
     });
     return newArr;
   } else {
@@ -113,7 +113,6 @@ function addCounters() {
   });
 }
 
-
 // dynamic button click listeners
 function increase(id) {
   store.dispatch({
@@ -128,7 +127,7 @@ function decrease(id) {
     payload: { id: id, value: id },
   });
 }
-//reset button 
+//reset button
 function reset() {
   store.dispatch({
     type: "reset",
