@@ -1,9 +1,9 @@
-// select dom elements
+// dom elements
 const counterEl = document.getElementById("counter");
 const incrementEl = document.getElementById("increment");
 const decrementEl = document.getElementById("decrement");
 const addCounter = document.getElementById("addCounter");
-const classd = "increment bg-indigo-400 text-white px-3 py-2 rounded shadow";
+
 // initial state
 const initialState = [
   {
@@ -12,13 +12,13 @@ const initialState = [
   },
 ];
 
-// create reducer function
+// reducer function
 function counterReducer(state = initialState, action) {
   const { type, payload } = action;
   const states = [...state];
   const modify = states.find((state) => state.id == payload?.id);
   const rest = states.filter((state) => state.id !== payload?.id);
-  console.log(type, payload);
+
   if (type === "increment") {
     const newState = {
       ...modify,
@@ -56,19 +56,18 @@ function counterReducer(state = initialState, action) {
   }
 }
 
-// create store
+// store
 const store = Redux.createStore(counterReducer);
 const render = () => {
   const state = store.getState();
-  //counterEl.innerText = state[0].value.toString();
+
   const counterValues = document.getElementsByClassName("counterValue");
   for (let i = 0; i < counterValues.length; i++) {
     counterValues[i].innerText = state[i].value;
-    //console.log(counterValues, state[i].value.toString());
   }
 };
-console.log(store.getState());
-// update UI initially
+
+// updating UI
 render();
 
 store.subscribe(render);
@@ -77,29 +76,28 @@ store.subscribe(render);
 incrementEl.addEventListener("click", () => {
   store.dispatch({
     type: "increment",
-    payload: { id: 0, value: 5 },
+    payload: { id: 0, value: 3 },
   });
 });
 
 decrementEl.addEventListener("click", () => {
   store.dispatch({
     type: "decrement",
-    payload: { id: 0, value: 2 },
+    payload: { id: 0, value: 1 },
   });
 });
 
-function myFunction() {
+function addCounters() {
   const container = document.getElementById("container");
   const state = store.getState();
   const i = state.length;
   const node = document.createElement("div");
   const inner = `
-  <div class="text-2xl font-semibold"></div>
-  <div class="counterValue"></div>
-  <button class="${classd}" onclick="increase(${i})"> 
+  <div class="counterValue text-2xl font-semibold text-center py-3"></div>
+  <button class="increment bg-indigo-400 text-white px-3 py-2 rounded shadow" onclick="increase(${i})"> 
     Increment
   </button>
-  <button  class="decrement bg-red-400 text-white px-3 py-2 rounded shadow" onclick="decrease(${i})"  >
+  <button  class="decrement bg-red-400 text-white px-3 py-2 rounded shadow mx-1" onclick="decrease(${i})"  >
     Decrement
   </button>
 `;
@@ -110,7 +108,7 @@ function myFunction() {
     type: "addCounter",
     payload: {
       id: store.getState().length,
-      value: store.getState().length + 2,
+      value: 0,
     },
   });
 }
@@ -118,13 +116,13 @@ function myFunction() {
 function increase(id) {
   store.dispatch({
     type: "increment",
-    payload: { id: id, value: id + 3 },
+    payload: { id: id, value: id + 2 },
   });
 }
 function decrease(id) {
   store.dispatch({
     type: "decrement",
-    payload: { id: id, value: id + 2 },
+    payload: { id: id, value: id },
   });
 }
 
