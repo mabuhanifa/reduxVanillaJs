@@ -66,9 +66,8 @@ const render = () => {
     counterValues[i].innerText = state[i].value;
     //console.log(counterValues, state[i].value.toString());
   }
-  console.log(state);
 };
-
+console.log(store.getState());
 // update UI initially
 render();
 
@@ -85,28 +84,27 @@ incrementEl.addEventListener("click", () => {
 decrementEl.addEventListener("click", () => {
   store.dispatch({
     type: "decrement",
-    payload: { id: 0, value: 5 },
+    payload: { id: 0, value: 2 },
   });
 });
 
 function myFunction() {
   const container = document.getElementById("container");
   const state = store.getState();
-  for (let i = 0; i < state.length; i++) {
-    const node = document.createElement("div");
-    const inner = `
+  const i = state.length;
+  const node = document.createElement("div");
+  const inner = `
   <div class="text-2xl font-semibold"></div>
   <div class="counterValue"></div>
-  <button class="${classd}" onclick="incre(${i})"> 
+  <button class="${classd}" onclick="increase(${i})"> 
     Increment
   </button>
-  <button  class="decrement bg-red-400 text-white px-3 py-2 rounded shadow" onclick="decre(${i})"  >
+  <button  class="decrement bg-red-400 text-white px-3 py-2 rounded shadow" onclick="decrease(${i})"  >
     Decrement
   </button>
 `;
-    node.innerHTML = inner;
-    container.appendChild(node);
-  }
+  node.innerHTML = inner;
+  container.appendChild(node);
 
   store.dispatch({
     type: "addCounter",
@@ -117,19 +115,20 @@ function myFunction() {
   });
 }
 
-function decre(id) {
-  store.dispatch({
-    type: "decrement",
-    payload: { id: id + 1, value: id + 2 },
-  });
-}
-function incre(id) {
+function increase(id) {
   store.dispatch({
     type: "increment",
-    payload: { id: id + 1, value: id + 3 },
+    payload: { id: id, value: id + 3 },
   });
 }
-function reset(id) {
+function decrease(id) {
+  store.dispatch({
+    type: "decrement",
+    payload: { id: id, value: id + 2 },
+  });
+}
+
+function reset() {
   store.dispatch({
     type: "reset",
   });
